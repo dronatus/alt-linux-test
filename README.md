@@ -1,2 +1,21 @@
-# alt-linux-test
-Тестовое задание: Простой HTTP-сервис, опубликованы исходные коды, Containerfile для сборки в Podman, Kubernetes-манифесты. Пасхалка внутри: это тест не только для меня, но и для Вас. :)
+# Simple HTTP Service on ALT Linux
+
+## Description
+A simple HTTP service that shows funny quiz.
+
+## Описание
+Простой HTTP-сервис, запустив который можно пройти забавный тест.
+
+## Build
+```bash
+podman build -t simple-quiz-test-alt:v1.0 -f Containerfile .
+```
+
+## Run (Rootless)
+```bash
+podman run -d --name test -p 8080:8080 simple-quiz-test-alt:v1.0
+```
+
+## Requirements
+* Podman
+* ALT Linux p11 base image
