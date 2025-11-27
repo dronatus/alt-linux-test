@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-quiz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-quiz
+  template:
+    metadata:
+      labels:
+        app: test-quiz
+    spec:
+      containers:
+      - name: test-quiz
+        image: ghcr.io/dronatus/simple-quiz-test-alt:latest
+        ports:
+        - containerPort: 8080
+        # SECURITY CONTEXT
+        securityContext:
+          runAsNonRoot: true               # Не запускаться от root
+          readOnlyRootFilesystem: true     # ФС только для чтения
+          allowPrivilegeEscalation: false  # Запретить повышение привилегий
+          runAsUser: 1001      # UID пользователя
+          runAsGroup: 1001     # GID группы
+        # RESOURCES
+        resources:
+          requests:
+            cpu: "100m"     # 0.1 CPU
+            memory: "128Mi" # 128 MB
+          limits:
+            cpu: "200m"     # 0.2 CPU  
+            memory: "256Mi" # 256 MB
+        # HEALTH CHECKS
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 7
+          periodSeconds: 5
+          timeoutSeconds: 1
