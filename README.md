@@ -32,9 +32,9 @@ cd alt-linux-test
 podman build -t simple-quiz-test-alt:myself -f Containerfile .
 ```
 
-### Run (Rootless)
+## Run (Rootless)
 ```bash
-podman run -d --name test -p 8000:8080 simple-quiz-test-alt:myself
+podman run -d --name test -p 8000:8080 simple-quiz-test-alt
 ```
 
 ## Kubernetes Deployment
@@ -78,4 +78,9 @@ make status-run  # проверить статус проброса портов
 make clean       # очистить временные файлы
 ```
 
-#### Enjoy!
+## Bugs:
+
+- Вышел очень неудачный `make test`, который по сути не работает. Идея была в проверке, возвращает ли `curl -s http://localhost:$$port` страницу, и не занят ли данный порт. На ALT порт 8080 занят, но данная проверка не выполняет свою функцию. Переключено на порт 8000, требуется доработка.
+- Протестировано на ALT Linux P11 и Ubuntu 22.04
+
+### Anyway, have fun!
