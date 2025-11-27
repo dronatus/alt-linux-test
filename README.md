@@ -43,6 +43,7 @@ podman run -d --name test -p 8080:8080 simple-quiz-test-alt:myself
 * Git
 * k8s (Minikube)
 * kubectl
+* make (for Using Makefile)
 * curl (or other browser)
 
 ### Clone
@@ -62,3 +63,19 @@ kubectl get pods # STATUS: Running, READY: 1/1
 kubectl port-forward service/test-service 8080:61111 &
 curl http://localhost:8080
 ```
+
+### Using Makefile
+
+```bash
+make apply       # развернуть
+make delete      # удалить
+make describe    # детальная информация
+make status      # проверить статус
+make test        # протестировать
+make run         # протестировать, затем запустить проброс портов для браузера
+make stop-run    # остановить проброс портов
+make status-run  # проверить статус проброса портов
+make clean       # очистить временные файлы
+```
+
+#### Enjoy!
