@@ -26,7 +26,7 @@ test:
 	fi
 	@echo "Testing application via port-forward..."
 	@rm -f $(PORT_FILE)
-	@for port in 8080 8000 8081 8082; do \
+	@for port in 8000 8080 8081 8082; do \
 		echo "Trying port $$port..."; \
 		kubectl port-forward service/test-service $$port:61111 & \
 		PORT_PID=$$!; \
