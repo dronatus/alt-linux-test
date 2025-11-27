@@ -1,12 +1,12 @@
 # Simple HTTP Service on ALT Linux
 
-## Description
+### Description
 A simple HTTP service that shows funny quiz.
 
-## Описание
+### Описание
 Простой HTTP-сервис, запустив который можно пройти забавный тест.
 
-## License
+### License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Public Image
