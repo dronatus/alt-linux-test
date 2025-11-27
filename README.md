@@ -34,7 +34,7 @@ podman build -t simple-quiz-test-alt:myself -f Containerfile .
 
 ### Run (Rootless)
 ```bash
-podman run -d --name test -p 8080:8080 simple-quiz-test-alt:myself
+podman run -d --name test -p 8000:8080 simple-quiz-test-alt:myself
 ```
 
 ## Kubernetes Deployment
@@ -60,8 +60,8 @@ kubectl apply -f k8s/
 ### Test
 ```bash
 kubectl get pods # STATUS: Running, READY: 1/1
-kubectl port-forward service/test-service 8080:61111 &
-curl http://localhost:8080
+kubectl port-forward service/test-service 8000:61111 &
+curl http://localhost:8000
 ```
 
 ### Using Makefile
