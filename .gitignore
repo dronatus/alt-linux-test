@@ -1,0 +1,6 @@
+# Kubernetes port-forward temporary files
+.portforward_pid
+.current_port
+
+# Kubernetes status temporary file
+.status
