@@ -8,7 +8,7 @@ apply:
 	kubectl apply -f k8s/
 	@echo 1 > $(STATUS_FILE)
 
-delete:
+delete: stop-run
 	kubectl delete -f k8s/
 	@rm -f $(STATUS_FILE)
 
@@ -98,7 +98,6 @@ status-run:
 		echo "No port-forward running"; \
 	fi
 
-clean:
-	@$(MAKE) stop-run
+clean: stop-run
 	@rm -f $(PORT_FILE) $(PID_FILE)
 	@echo "Cleaned up all temporary files"
