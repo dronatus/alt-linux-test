@@ -32,7 +32,7 @@ cd alt-linux-test
 podman build -t simple-quiz-test-alt:myself -f Containerfile .
 ```
 
-## Run (Rootless)
+## Run using Podman (Rootless)
 ```bash
 podman run -d --name test -p 8000:8080 simple-quiz-test-alt
 ```
@@ -44,7 +44,7 @@ podman run -d --name test -p 8000:8080 simple-quiz-test-alt
 * k8s (Minikube)
 * kubectl
 * make (for Using Makefile)
-* curl (or other browser)
+* Utilities: curl, ss
 
 ### Clone
 ```bash
@@ -70,7 +70,7 @@ curl http://localhost:8000
 make apply       # развернуть
 make delete      # удалить
 make describe    # детальная информация
-make status      # проверить статус
+make status      # проверить статус развертывания
 make test        # протестировать
 make run         # протестировать, затем запустить проброс портов для браузера
 make stop-run    # остановить проброс портов
@@ -78,9 +78,10 @@ make status-run  # проверить статус проброса портов
 make clean       # очистить временные файлы
 ```
 
-## Bugs:
+## Tests && Founded Bugs:
 
-- Вышел очень неудачный `make test`, который по сути не работает. Идея была в проверке, возвращает ли `curl -s http://localhost:$$port` страницу, и не занят ли данный порт. На ALT порт 8080 занят, но данная проверка не выполняет свою функцию. Переключено на порт 8000, требуется доработка.
+- В Makefile добавлены зависимости, чтобы тесты завершались корректно.
 - Протестировано на ALT Linux P11 и Ubuntu 22.04
+
 
 ### Anyway, have fun!
