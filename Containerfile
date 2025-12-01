@@ -2,17 +2,9 @@
 FROM registry.altlinux.org/alt/alt:p11 AS builder
 
 # Подготовка к установке GO v.1.21
-RUN mkdir -p /app /tmp/downloads && \
+RUN mkdir -p /app && \
     apt-get update && \
-    apt-get install -y wget
-WORKDIR /tmp/downloads
-
-# Устанавливаем GO с официального сайта для сборки
-RUN wget https://golang.org/dl/go1.21.6.linux-amd64.tar.gz && \
-    tar -C /usr/local -xzf go1.21.6.linux-amd64.tar.gz && \
-    rm go1.21.6.linux-amd64.tar.gz
-
-ENV PATH="/usr/local/go/bin:${PATH}"
+    apt-get install -y golang
 
 # Копируем исходные коды для сборки
 WORKDIR /app
