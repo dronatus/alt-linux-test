@@ -19,29 +19,34 @@ status:
 	kubectl get pods,services,deployments
 
 test:
-	@if [ ! -f $(STATUS_FILE) ] || [ $(STATUS_FILE) -ne 1 ]; then \
+	@if [ ! -f $(STATUS_FILE) ] || [ $$(cat $(STATUS_FILE)) -ne 1 ]; then \
 		echo "Can't run: Deployment is not apply."; \
 		echo "Run 'make apply' first."; \
 		exit 1; \
 	fi
 	@echo "Testing application via port-forward..."
 	@rm -f $(PORT_FILE)
-	@for port in 8000 8080 8081 8082; do \
+	@for port in 8080 8000 8081 8082; do \
 		echo "Trying port $$port..."; \
-		kubectl port-forward service/test-service $$port:61111 & \
-		PORT_PID=$$!; \
-		sleep 2; \
-		if curl -s http://localhost:$$port > /dev/null; then \
-			echo "Successfully connected on port $$port"; \
-			echo "=== Application Output ==="; \
-			curl -s http://localhost:$$port | head -n 5; \
-			echo "=========================="; \
-			echo $$port > $(PORT_FILE); \
-			kill $$PORT_PID 2>/dev/null || true; \
-			break; \
+		if ! ss -tupan | grep -q ":$$port "; then \
+			kubectl port-forward service/test-service $$port:61111 & \
+			PORT_PID=$$!; \
+			sleep 2; \
+			if curl -s http://localhost:$$port > /dev/null; then \
+				echo "Successfully connected on port $$port"; \
+				echo ""; \
+				echo "=== Application Output ==="; \
+				curl -s http://localhost:$$port | head -n 5; \
+				echo "=========================="; \
+				echo $$port > $(PORT_FILE); \
+				kill $$PORT_PID 2>/dev/null || true; \
+				break; \
+			else \
+				echo "Port $$port failed, trying next..."; \
+				kill $$PORT_PID 2>/dev/null || true; \
+			fi; \
 		else \
-			echo "Port $$port failed, trying next..."; \
-			kill $$PORT_PID 2>/dev/null || true; \
+			echo "Port $$port is busy, trying next..."; \
 		fi; \
 	done
 	@if [ ! -f $(PORT_FILE) ]; then \
